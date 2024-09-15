@@ -20,30 +20,29 @@ class fifo_gen #(parameter fifo_size = 8, parameter drvrs = 4, parameter pckg_sz
         end
     endfunction
 
-    function bit [pckg_sz-1:0] fifo_pop();
+    //function bit [pckg_sz-1:0] fifo_pop();
+   //bit [pckg_sz-1:0] data;
     
-    bit [pckg_sz-1:0] data;
-    
-    if (!d_q.empty()) begin
+    //if (!d_q.empty()) begin
         // Extrae el dato más antiguo (primero en la cola)
-        data = d_q.pop_front();
+        //data = d_q.pop_front();
 
         // Actualiza la interfaz con el nuevo primer dato de la cola, si hay más datos
-        if (!d_q.empty()) begin
-            this.v_if.D_pop[0][this.fifo_num] = d_q[0];
-        end else begin
+        //if (!d_q.empty()) begin
+            //this.v_if.D_pop[0][this.fifo_num] = d_q[0];
+        //end else begin
             // Si la FIFO está vacía después del pop, marca que no hay datos pendientes
-            this.v_if.pndng[0][this.fifo_num] = 0;
-        end
-    end else begin
+            //this.v_if.pndng[0][this.fifo_num] = 0;
+        //end
+    //end else begin
 
-        $display("Error: FIFO %0d underflow!", fifo_num);
-        data = '0;
-    end
+        //$display("Error: FIFO %0d underflow!", fifo_num);
+        //data = '0;
+    //end
     
-    return data;
+    //return data;
 
-endfunction
+//endfunction
 
  // Tarea para manejar las señales de la interfaz virtual
     task if_signal();
