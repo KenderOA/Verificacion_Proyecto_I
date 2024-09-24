@@ -1,7 +1,7 @@
 //Enumerado de instrucciones pruebas 
 typedef enum {max_variabilidad, max_aleatoriedad} Intrucciones_dato_modo; ///generador-agente modo el dato 
-typedef enum {self_id, any_id, invalid_id,normal_id} instrucciones_agente;// generador afente modo del id
-typedef enum {bus_push, bus_pop} instrucciones_monitor; // odo del monitor
+typedef enum {self_id, any_id, invalid_id,normal_id} instrucciones_id_mod;// generador afente modo del id
+//typedef enum {bus_push, bus_pop} instrucciones_monitor; // modo del monitor
 typedef enum {normal, broadcast, one_to_all, all_to_one} instrucciones_genenerador; //modo del generador
 
 class agnt_drv #(parameter pckg_sz=16, parameter drvrs=4);
