@@ -1,4 +1,4 @@
-`include "Mailboxes.sv"
+`include "packs_mbx.sv"
 `include "fifo.sv"
 `include "bus_if.sv"
 
