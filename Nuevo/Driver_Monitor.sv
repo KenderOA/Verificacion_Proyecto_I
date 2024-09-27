@@ -1,7 +1,6 @@
 class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
 
     virtual bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz))    bus_intf;                 //interfaz virtual del bus 
-    bus_transaction #(.pckg_sz(pckg_sz), .drvrs(drvrs))     bus_transaction;    //transacción del agente del driver
     bus_mbx                                                 agnt_drvr_mbx;            //mailbox del agente del driver
     bus_mbx                                                 drv_chkr_mbx;
     int                                                     drvr_num;                 //número del driver
