@@ -13,7 +13,6 @@ module test_driver_monitor;
         clk=0;
         dm = new(0); 
         clk = 0;
-        forever #5 clk = ~clk;
         fork
             dm.run();  
         join_none
@@ -37,7 +36,7 @@ module test_driver_monitor;
             end
         end
         // Finaliza la simulación
-        always@(posedge clk) begin
+        always @(posedge clk) begin
             if ($time > 100000) begin
                 $display("Test_bench: Tiempo límite de prueba en el test_bench alcanzado");
                 $finish;
