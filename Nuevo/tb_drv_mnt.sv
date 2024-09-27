@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 `include "Driver_Monitor.sv"
-`include "interfaz_pkgmbx.sv"
 module test_driver_monitor;
     reg clk;
     parameter pckg_sz=16;
@@ -50,4 +49,3 @@ module test_driver_monitor;
     end
 
 endmodule
-
