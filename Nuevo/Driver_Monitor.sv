@@ -16,7 +16,7 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
         this.drvr_num = drvr_num;                                                   //se asigna el número del driver   
     endfunction
 
-    task run ()
+    task run ();
         $display("[%g] El driver_monitor fue inicializado", $time);
         @(posedge bus_intf.clk);
         bus_intf.rst = 1;
