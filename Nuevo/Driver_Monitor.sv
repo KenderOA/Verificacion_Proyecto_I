@@ -1,3 +1,4 @@
+`include "interfaz_pkgmbx.sv"
 class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
 
     virtual bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz))    bus_intf;                 //interfaz virtual del bus 
