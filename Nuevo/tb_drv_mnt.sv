@@ -29,7 +29,7 @@ module test_driver_monitor;
         end
         #50;
         for (int j = 0; j < 10; j++) begin
-            if (dm.drv_chkr_mbx.get(transaction)) begin // Intenta obtener una transacción del mailbox del checker
+            if (dm.drv_chkr_mbx.get(dm.transaction)) begin // Intenta obtener una transacción del mailbox del checker
                 // Imprime la transacción recibida en el checker
                 $display("[%g] Checker recibió transacción: Tipo=%0d, Paquete=0x%h", $time, transaction.tipo, transaction.paquete);
             end else begin
