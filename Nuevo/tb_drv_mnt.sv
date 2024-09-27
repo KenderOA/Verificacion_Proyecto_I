@@ -8,13 +8,10 @@ module test_driver_monitor;
 
     //senales
     Driver_Monitor #( .drvrs(drvrs), .pckg_sz(pckg_sz)) dm;
-    bus_mbx drv_chkr_mbx;
-    bus_mbx agnt_drvr_mbx;
-    bus_transaction transaction;
+    always #5 clk = ~clk;
 
     initial begin
-        drv_chkr_mbx = new ();
-        agnt_drvr_mbx = new(); 
+        clk=0;
         dm = new(0); 
         clk = 0;
         forever #5 clk = ~clk;
@@ -26,7 +23,7 @@ module test_driver_monitor;
             transaction = new();
             transaction.tipo = $urandom_range(0, 2);
             transaction.paquete= $urandom_range(0, 255);  
-            agnt_drvr_mbx.put(transaction);
+            dm.agnt_drvr_mbx.put(transaction);
 
             $display("[%g] Agente envió transacción: Tipo=%0d, Paquete=0x%h", $time, transaction.tipo, transaction.paquete);
             #10;
@@ -53,3 +50,4 @@ module test_driver_monitor;
     end
 
 endmodule
+
