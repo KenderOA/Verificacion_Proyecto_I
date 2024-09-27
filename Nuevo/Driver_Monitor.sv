@@ -1,52 +1,60 @@
-`timescale 1ns/1ps
-`include "Driver_Monitor.sv"
-`include "interfaz_pkgmbx.sv"
-module test_driver_monitor;
-    reg clk;
-    parameter pckg_sz=16;
-    parameter drvrs=4;
+class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
 
-    //senales
-    Driver_Monitor #( .drvrs(drvrs), .pckg_sz(pckg_sz)) dm;
-    always #5 clk = ~clk;
+    virtual bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz))    bus_intf;                 //interfaz virtual del bus 
+    bus_mbx                                                 agnt_drvr_mbx;            //mailbox del agente del driver
+    bus_mbx                                                 drv_chkr_mbx;
+    int                                                     drvr_num;                 //número del driver
 
-    initial begin
-        clk=0;
-        dm = new(0); 
-        clk = 0;
-        forever #5 clk = ~clk;
-        fork
-            dm.run();  
-        join_none
+    bit [pckg_sz-1:0]                                       fifo_in[$];               //fifo de entrada
+    bit [pckg_sz-1:0]                                       fifo_out[$];              //fifo de salida
+    //bit [pck_sz-1:0]                                      dato;                     //dato
 
-        for (int i = 0; i < 10; i++) begin  // Envía 10 transacciones aleatorias
-            transaction = new();
-            transaction.tipo = $urandom_range(0, 2);
-            transaction.paquete= $urandom_range(0, 255);  
-            dm.agnt_drvr_mbx.put(transaction);
+    function new (int drvr_num);                                                    //constructor
+        fifo_in = {};                                                               //se inicializa la fifo de entrada vacía
+        fifo_out = {};                                                              //se inicializa la fifo de salida vacía
+        this.drvr_num = drvr_num;                                                   //se asigna el número del driver   
+    endfunction
 
-            $display("[%g] Agente envió transacción: Tipo=%0d, Paquete=0x%h", $time, transaction.tipo, transaction.paquete);
-            #10;
+    task run ()
+        $display("[%g] El driver_monitor fue inicializado", $time);
+        @(posedge bus_intf.clk);
+        bus_intf.rst = 1;
+        @(posedge bus_intf.clk);
+        forever begin
+            bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4) transaction;
+            $display("[%g] El driver espera por una transacción", $time);
+            agnt_drvr_mbx.get(transaction);
+            transaction.print("Driver: Transacción recibida");
+            $display("Transacciones pendientes en el mbx agnt_drv = %g", agnt_drvr_mbx.num());
+
+            case(transaction.tipo)
+                enviar_dato: begin
+                    //Agregar el dato a la fifo_in
+                    this.fifo_in.push_back(transaction.paquete);                                           //se agrega un dato al final de la fifo de entrada
+                    $display("[%g] Se ha enviando un dato= 0x%h",
+                    $time, transaction.paquete);
+                    //Trabajo al bus
+                    this.bus_intf.D_pop[0][this.drvr_num] = fifo_in[0];                     //se actualiza el valor de D_pop con el primer dato de la fifo de entrada
+                    this.bus_intf.pndng[0][this.drvr_num] = 1;                              //se actualiza el valor de pndng a 1
+                end
+                recibir_dato: begin
+                    @(posedge this.bus_intf.push[0][this.drvr_num]);                        //se espera a que se active la señal push del bus
+                    this.fifo_out.push_back(this.bus_intf.D_push[0][this.drvr_num]);        //se agrega un dato al final de la fifo de salida
+                    // Aquí puedes acceder a los campos de la transacción
+                    $display("[%g] El monitor recibió un dato= 0x%h desde el dispositivo ID=%0d", 
+                            $time, transaction.dato, transaction.id);// preguntar
+
+                    // Enviar la transacción al checker vía mailbox
+                    drv_chkr_mbx.put(transaction);  // Enviar el paquete completo al mailbox del checker
+
+                    @(posedge this.bus_intf.clk);                                           //se espera a que se active el flanco de subida del reloj
+                    this.fifo_out.pop_front(); //this.fifo_out.delete(0);                   //se elimina el primer dato de la fifo de salida
+                end
+                eliminar_dato: begin                                                        
+                    @(posedge this.bus_intf.pop[0][this.drvr_num]);                         //se espera a que se active la señal pop del bus
+                    this.fifo_in.pop_front(); //this.fifo_in.delete(0);                     //se elimina el primer dato de la fifo de entrada
+                end
+            endcase
         end
-        #50;
-
-        // Verifica el estado de la fifo de entrada
-        assert(dm.fifo_in.size() == 10) else $fatal("Error: FIFO de entrada no contiene el número esperado de datos.");
-        for (int j = 0; j < 10; j++) begin
-            if (dm.drv_chkr_mbx.get(transaction)) begin // Intenta obtener una transacción del mailbox del checker
-                // Imprime la transacción recibida en el checker
-                $display("[%g] Checker recibió transacción: Tipo=%0d, Paquete=0x%h", $time, transaction.tipo, transaction.paquete);
-            end else begin
-                $display("[%g] Checker no recibió transacción en el mailbox", $time);
-            end
-        end
-        // Finaliza la simulación
-            always @(posedge clk) begin
-        if ($time > 100000) begin
-            $display("Test_bench: Tiempo límite de prueba en el test_bench alcanzado");
-            $finish;
-        end
-    end
-    end
-
-endmodule
+    endtask
+endclass
