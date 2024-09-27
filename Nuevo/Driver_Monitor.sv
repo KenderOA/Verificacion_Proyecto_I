@@ -22,7 +22,7 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
         bus_intf.rst = 1;
         @(posedge bus_intf.clk);
         forever begin
-            bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4) transaction;
+            bus_transaction #(.pckg_sz(pckg_sz), .drvrs(drvrs)) transaction;
             $display("[%g] El driver espera por una transacción", $time);
             agnt_drvr_mbx.get(transaction);
             transaction.print("Driver: Transacción recibida");
