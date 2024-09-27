@@ -13,7 +13,7 @@ typedef enum { enviar_dato, recibir_dato, eliminar_dato} inst_drv_mnt;
 
 class bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4);
     rand int retardo; // tiempo de retardo en ciclos de reloj que se debe esperar antes de ejecutar la transacción
-    rand bit [pckg_sz-1:0] paquete // este es el dato de la transacción
+    rand bit [pckg_sz-1:0] paquete; // este es el dato de la transacción
     rand bit [7:0] id; //identificador del dispositivo destino
     rand bit dato [pckg_sz-9:0]; //Payload del paquete
     rand int dis_src; //dispositivo de envio
