@@ -36,11 +36,12 @@ module test_driver_monitor;
             end
         end
         // Finaliza la simulación
-        always @(posedge clk) begin
-            if ($time > 100000) begin
-                $display("Test_bench: Tiempo límite de prueba en el test_bench alcanzado");
-                $finish;
-            end
+    end
+
+    always @(posedge clk) begin
+        if ($time > 100000) begin
+            $display("Test_bench: Tiempo límite de prueba en el test_bench alcanzado");
+            $finish;
         end
     end
 
