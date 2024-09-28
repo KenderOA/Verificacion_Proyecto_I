@@ -46,12 +46,12 @@ class bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4);
         this.dis_src=0;
         this.id=0;
         this.tiempo = 0;
-        this.inst = enviar_dato;
+        this.tipo= enviar_dato;
     endfunction
 
     function void print(string tag = "");
     $display("[%g] %s Tiempo=%g Tipo=%s Retardo=%g Dato=0x%h Dis_src=%0d ID=%0d Inst=%s", 
-             $time, tag, this.tiempo, this.tipo, this.retardo, this.dato, this.dis_src, this.id, this.inst.name());
+             $time, tag, this.tiempo, this.tipo, this.retardo, this.dato, this.dis_src, this.id, this.tipo.name());
     endfunction
 
 endclass
