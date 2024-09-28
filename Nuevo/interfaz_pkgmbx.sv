@@ -28,7 +28,7 @@ class bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4);
     constraint fuente_destino {id != dis_src;};        
     constraint dato_valido {dato inside {{(pckg_sz-8){1'b1}},{(pckg_sz-8){1'b0}}};};
 
-    function new (bit [pckg_sz-9:0] dto=0, int ret=0, bit [7:0] ide=0, int src=0, int tmp=0, int mxrto=10, inst_drv_mnt inst=enviar_dato );
+    function new (bit [pckg_sz-9:0] dto='0, int ret=0, bit [7:0] ide='0, int src=0, int tmp=0, int mxrto=10, inst_drv_mnt inst=enviar_dato );
         
         this.dato=dto;
         this.retardo=ret;
@@ -37,16 +37,18 @@ class bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4);
         this.tiempo=tmp;
         this.max_retardo=mxrto;
         this.tipo=inst;
+        this.paquete={id, dato};
         
     endfunction;
 
     function clean;
         this.retardo = 0;
-        this.dato = 0;
+        this.dato = '0;
         this.dis_src=0;
-        this.id=0;
+        this.id='0;
         this.tiempo = 0;
         this.tipo= enviar_dato;
+        this.paquete='0;
     endfunction
 
     function void print(string tag = "");
