@@ -20,7 +20,7 @@ module test_driver_monitor;
 
         for (int i = 0; i < 10; i++) begin  
             transaction = new();
-            transaction.tipo = 1
+            transaction.tipo = 1;
             transaction.paquete= $urandom_range(0, 255);  
             dm.agnt_drvr_mbx.put(transaction);
 
