@@ -54,5 +54,20 @@ class agnt_drvr_transaction#(parameter pckg_sz = 16, parameter drvrs=4);
     //endfunction
 
 endclass
+
+class bus_transactions #(parameter drvrs = 4, parameter pck_sz = 16);
+
+
+endclass
+
+class agnt_instruction
+
 //Mailbox
 typedef mailbox #(agnt_driv) agnt_drvr_mbx;
+
+typedef mailbox #(bus_transactions) bus_transactions_mbx;
+
+typedef mailbox #(agnt_instruction) comando_tst_agnt_mbx;
+typedef enum data_type { normal_transactions,  } name;
+
+
