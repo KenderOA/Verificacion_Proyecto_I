@@ -8,10 +8,10 @@ module tb_Driver_Monitor;
     parameter pckg_sz = 16;
 
     // Instancia de la interfaz del bus
-    bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz)) bus_ifc(.*);
+    bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz)) bus_ifc();
 
     // Instancias de Driver_Monitor
-    Driver_Monitor #(.drvrs(drvrs), .pckg_sz(pckg_sz)) dm [drvrs];
+    Driver_Monitor #(.drvrs(drvrs), .pckg_sz(pckg_sz)) dm[drvrs];
 
     // Clock y reset
     logic clk;
@@ -56,12 +56,12 @@ module tb_Driver_Monitor;
 
     // Task para enviar múltiples mensajes desde un driver
     task send_multiple_messages(Driver_Monitor dm_instance, int driver_num);
-        bus_transaction #(.pckg_sz(pckg_sz), .drvrs(drvrs)) transaction;
-        
+        bus_transaction transaction;
+
         // Enviar 10 mensajes desde este driver
         for (int j = 0; j < 10; j++) begin
             // Crear una nueva transacción con datos aleatorios
-            transaction = new($random, 10, $urandom_range(0, drvrs-1), driver_num);
+            transaction = new($urandom_range(0, 255), 10, $urandom_range(0, drvrs-1), driver_num);
 
             // Colocar la transacción en el mailbox del driver
             dm_instance.agnt_drvr_mbx.put(transaction);
