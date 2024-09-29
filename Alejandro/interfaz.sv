@@ -58,7 +58,19 @@ class bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4);
 
 endclass
 
+class mnt_chk_sb ;
+  int id;
+  int payload;
+  int receiver;
+  int tiempo;
+  function new (int receiver);
+	  this.receiver = receiver;
+	  this.tiempo = $time;
+  endfunction;
+endclass
+
 
 //Mailbox
 
 typedef mailbox #(bus_transaction) bus_mbx;
+typedef mailbox #(mnt_chk_sb) mnt_chk_sb_mbx;
