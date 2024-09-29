@@ -1,7 +1,6 @@
 `timescale 1ns/1ps
 `include "Driver_Monitor.sv"
-`include "Interface_Transactions.sv"
-`include "Libary.sv"
+`include "Library.sv"
 
 module Test_Driver;
 
@@ -16,7 +15,7 @@ module Test_Driver;
     // Instancia del Driver_Monitor
     Driver_Monitor #(.drvrs(drvrs), .pckg_sz(pckg_sz), .num_pckg(num_pckg)) driver_monitor_inst;
 
-    bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz)) bus_intf_inst (.clk(clk));
+    bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz), .bits(bits), .broadcast(broadcast)) bus_intf_inst (.clk(clk));
 
     bs_gntrt_n_rbtr #(.bits(bits), .drvrs(drvrs), .pckg_sz(pckg_sz), .broadcast(broadcast)) bs_gntrt_n_rbtr_inst (
         .clk(clk),
