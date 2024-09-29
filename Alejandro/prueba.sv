@@ -83,7 +83,7 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
             @(posedge bus_intf.push[0]); // Esperar señal de push
             
             // Leer el paquete de la señal D_push
-            bit [pckg_sz-1:0] paquete = bus_intf.D_push[0]; 
+            logic [pckg_sz-1:0] paquete = bus_intf.D_push[0]; 
 
             // Crear nueva transacción
             bus_transaction #(.pckg_sz(pckg_sz)) mnt_transaction;
