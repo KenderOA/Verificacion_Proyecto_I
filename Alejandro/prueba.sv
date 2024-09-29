@@ -15,9 +15,9 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
 
 
     // Constructor de la clase
-    function new(int num, virtual bus_intf bus);
+    function new(int num, virtual bus_intf bus, int nmun);
         this.drvr_num = num;
-        int mnt_num= mnum;
+        this.mnt_num= mnum;
         this.bus_intf = bus; // Asignar la interfaz del bus
         fifo_in = {};
         fifo_out = {};
