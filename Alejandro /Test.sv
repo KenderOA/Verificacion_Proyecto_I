@@ -19,8 +19,8 @@ class Test #(parameter drvrs = 4, parameter pckg_sz = 16);
         
         $display("[%g] El test fue inicializado", $time);
         tst_gen_transaction.id=this.id;
-        tst_gen_transaction.dis_src=this.source;
-        tst_gen_transaction.caso=this.test;
+        tst_gen_transaction.dis_src=this.dis_src;
+        tst_gen_transaction.tipo_gen=this.test;
         tst_gen_mbx.put(tst_gen_transaction);
         
     endtask
