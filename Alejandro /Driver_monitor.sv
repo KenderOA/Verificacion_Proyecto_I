@@ -1,3 +1,4 @@
+
 class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
     
     virtual bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz)) bus_intf;  // Interfaz del bus compartida
@@ -5,9 +6,9 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
     int mnt_num;
     int espera;    // Tiempo de espera o retardo
 
-    bus_mbx agnt_drvr_mbx;    // Mailbox agnt_drvr
+  	bus_mbx #(.drvrs(drvrs), .pckg_sz(pckg_sz)) agnt_drvr_mbx;    // Mailbox agnt_drvr
     bus_mbx mnt_chkr_sb_mbx;  // Mailbox drvr_mnt a chkr_sb
-    bus_mbx drvr_chkr_sb_mbx;
+  	bus_mbx #(.drvrs(drvrs), .pckg_sz(pckg_sz)) drvr_chkr_sb_mbx;
     
     logic [pckg_sz-1:0] fifo_in[$];  // FIFO para los datos de entrada del driver
     logic [pckg_sz-1:0] fifo_out[$]; // FIFO para los datos de salida del monitor
