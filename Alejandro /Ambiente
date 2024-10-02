@@ -1,4 +1,4 @@
-class Ambiente#(parameter drvrs = 4, parameter pckg_sz = 16);
+class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
   // Declaración de los componentes del ambiente
   Driver_Monitor #(.drvrs(drvrs), .pckg_sz(pckg_sz)) driver_inst[drvrs];
   //Checker_Scoreboard #(.drvrs(drvrs), .pckg_sz(pckg_sz)) chkr_sb_inst;
