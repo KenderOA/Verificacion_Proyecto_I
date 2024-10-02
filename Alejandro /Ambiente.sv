@@ -3,7 +3,7 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
   // Declaración de los componentes del ambiente
   
   Driver_Monitor #(.drvrs(drvrs), .pckg_sz(pckg_sz)) driver_inst[drvrs];
-  // Checker_Scoreboard #(.drvrs(drvrs), .pckg_sz(pckg_sz)) chkr_sb_inst;
+  Checker_Scoreboard #(.drvrs(drvrs), .pckg_sz(pckg_sz)) chkr_sb_inst;
   Agente #(.drvrs(drvrs), .pckg_sz(pckg_sz)) agente_inst;
   Generador #(.drvrs(drvrs), .pckg_sz(pckg_sz)) generador_inst;
 
@@ -13,7 +13,7 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
   // Declaración de los mailboxes
   
   bus_mbx #(.drvrs(drvrs), .pckg_sz(pckg_sz)) agnt_drv_mbx [drvrs]; 
-  // bus_mbx  mnt_chkr_sb_mbx [drvrs];
+  bus_mbx  mnt_chkr_sb_mbx [drvrs];
   gen_agnt_mbx gen_agnt_mbx;
   tst_gen_mbx tst_gen_mbx; // mailbox del driver al checker
 
@@ -56,7 +56,9 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
         automatic int k = i;
         this.driver_inst[k].run();
       end
-      // checker_inst.run(); // Descomentar si es necesario
+      checker_inst.run_drvr(); // Descomentar si es necesario
+      chekcer_inst.run_mnt();
+      chekcer_inst.report_sb();
     join_none;
   endtask
 endclass
