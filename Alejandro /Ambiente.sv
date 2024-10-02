@@ -3,12 +3,9 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
   // Declaración de los componentes del ambiente
   
   Driver_Monitor #(.drvrs(drvrs), .pckg_sz(pckg_sz)) driver_inst[drvrs];
-  Checker_Scoreboard #(.drvrs(drvrs), .pckg_sz(pckg_sz)) chkr_sb_inst;
   Agente #(.drvrs(drvrs), .pckg_sz(pckg_sz)) agente_inst;
   Generador #(.drvrs(drvrs), .pckg_sz(pckg_sz)) generador_inst;
-
-  // Declaración de la interfaz que conecta el DUT
-  virtual bus_intf #(.drvrs(drvrs), .pckg_sz(pckg_sz)) bus_intf;
+  Checker_Scoreboard #(.drvrs(drvrs), .pckg_sz(pckg_sz)) checker_inst;
 
   // Declaración de los mailboxes
   
