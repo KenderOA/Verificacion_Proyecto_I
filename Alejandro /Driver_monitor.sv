@@ -7,6 +7,7 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
 
     bus_mbx agnt_drvr_mbx;    // Mailbox agnt_drvr
     bus_mbx mnt_chkr_sb_mbx;  // Mailbox drvr_mnt a chkr_sb
+    bus_mbx drvr_chkr_sb_mbx;
     
     logic [pckg_sz-1:0] fifo_in[$];  // FIFO para los datos de entrada del driver
     logic [pckg_sz-1:0] fifo_out[$]; // FIFO para los datos de salida del monitor
@@ -21,6 +22,7 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
         espera = 0;
         this.agnt_drvr_mbx = new();  // Inicializar mailboxes
         this.mnt_chkr_sb_mbx = new();
+        this.drvr_chkr_sb_mbx=new();
     endfunction
 
     // Task para ejecutar el comportamiento combinado de Driver y Monitor
@@ -63,6 +65,7 @@ class Driver_Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
             
                 // Agregar el dato a la FIFO
                 this.fifo_in.push_back(transaction.paquete);
+                this.drvr_chkr_sb_mbx.put(transaction);
                 $display("[%g] Driver %d: Dato agregado a FIFO: 0x%h", $time, drvr_num, transaction.paquete);
 
                 // Enviar el dato al bus
