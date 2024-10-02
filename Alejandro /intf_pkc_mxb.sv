@@ -2,7 +2,7 @@
 typedef enum {max_variabilidad, max_aleatoriedad} modo_agnt_data; //gen_ag_data_modo
 typedef enum {self_id, any_id, invalid_id, fix_source ,normal_id} modo_agnt_id;//gen_ag_id_modo
 typedef enum {normal, broadcast, one_to_all, all_to_one} Generador_modo;
-//interface
+//Interface
 interface bus_intf #(parameter bits = 1, parameter drvrs = 4, parameter pckg_sz = 16) //parameter del broadcast no se si va aqui
 (input clk);
     logic rst;
@@ -81,7 +81,7 @@ class gen_agnt; //gen_ag
 endclass
 
 class tst_gen;
-  rand Generador_modo tipo_gen; //caso
+  Generador_modo tipo_gen; //caso
   int id; 
   int dis_src; //source
   function new (Generador_modo tpo_gen=normal, int id=0, dis_src=0);
