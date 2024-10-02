@@ -14,6 +14,7 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
   
   bus_mbx #(.drvrs(drvrs), .pckg_sz(pckg_sz)) agnt_drv_mbx [drvrs]; 
   bus_mbx  mnt_chkr_sb_mbx [drvrs];
+  bus_mbx drvr_chkr_sb_mbx [drvrs];
   gen_agnt_mbx gen_agnt_mbx;
   tst_gen_mbx tst_gen_mbx; // mailbox del driver al checker
 
@@ -24,11 +25,12 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
     for (int i = 0; i < drvrs; i++) begin
       automatic int k = i;
       this.agnt_drv_mbx[k] = new();
-      // this.mnt_chkr_sb_mbx[k] = new(); // Descomentar si es necesario
+      this.mnt_chkr_sb_mbx[k] = new(); // Descomentar si es necesario
+      this.drvr_chkr_sb_mbx[k] = new();
     end
 
     // Instanciación de los componentes del ambiente
-    // checker_inst = new(); // Descomentar si es necesario
+    checker_inst = new(); // Descomentar si es necesario
     generador_inst = new();
     agente_inst = new();
 
@@ -36,13 +38,15 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
     agente_inst.gen_agnt_mbx = gen_agnt_mbx;
     generador_inst.gen_agnt_mbx = gen_agnt_mbx;
     generador_inst.tst_gen_mbx = tst_gen_mbx;
-    // checker_inst.mnt_chkr_sb_mbx = mnt_chkr_sb_mbx; // Descomentar si es necesario
+    checker_inst.mnt_chkr_sb_mbx = mnt_chkr_sb_mbx; // Descomentar si es necesario
+    checker_inst.drvr_chkr_sb_mbx = drvr_chkr_sb_mbx;
     
     for (int i = 0; i < drvrs; i++) begin
       automatic int k = i;
       this.driver_inst[k] = new(k, bus_intf, k); // Instanciación del driver
       this.driver_inst[k].agnt_drvr_mbx = agnt_drv_mbx[k];
-      // this.driver_inst[k].mnt_chkr_sb_mbx = mnt_chkr_sb_mbx[k]; // Descomentar si es necesario
+      this.driver_inst[k].mnt_chkr_sb_mbx = mnt_chkr_sb_mbx[k]; // Descomentar si es necesario
+      this.driver_inst[k].drvr_chkr_sb_mbx = drvr_chkr_sb_mbx[k];
       this.agente_inst.bus_mbx_array[k] = agnt_drv_mbx[k];  
     end
   endfunction
