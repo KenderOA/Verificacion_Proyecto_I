@@ -33,7 +33,7 @@ class Agente #(parameter drvrs = 4, parameter pckg_sz = 16);
 
                 case (this.gen_agnt_transaction.tipo_data)
                     //this.bus_transaction = new(); //no se si ponerlo
-                    max_variability: bus_transaction.dato_valido.constraint_mode(1);        //Modo de variabilidad
+                    max_variabilidad: bus_transaction.dato_valido.constraint_mode(1);        //Modo de variabilidad
                     max_aleatoriedad: bus_transaction.dato_valido.constraint_mode(0);         //Modo de aleatoriedad
                     default: bus_transaction.dato_valido.constraint_mode(0);                //Modo por defecto
                 endcase
