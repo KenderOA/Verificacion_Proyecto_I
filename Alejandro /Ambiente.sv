@@ -1,4 +1,5 @@
 class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
+  
   // Declaración de los componentes del ambiente
   Driver_Monitor #(.drvrs(drvrs), .pckg_sz(pckg_sz)) driver_inst[drvrs];
   //Checker_Scoreboard #(.drvrs(drvrs), .pckg_sz(pckg_sz)) chkr_sb_inst;
@@ -25,11 +26,10 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
 		end
 
     // Instanciación de los componentes del ambiente
-    driver_inst = new();
+
     //checker_inst = new();
     generador_inst = new();
-    agent_inst = new();
-
+    agente_inst = new();
     // Conexión de las interfaces y mailboxes en el ambiente
     agente_inst.gen_agnt_mbx = gen_agnt_mbx;
     generador_inst.gen_agnt_mbx = gen_agnt_mbx;
@@ -38,7 +38,7 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
     
     for (int i = 0; i<drvrs; i++ ) begin
         automatic int k = i;
-		    this.driver_inst[k] = new(k);
+		    this.driver_inst[k] = new();
             this.driver_inst[k].agnt_drv_mbx = agnt_drv_mbx[k];
             //this.driver_inst[k].mnt_chkr_sb_mbx = mnt_chkr_sb_mbx[k];
             this.agente_inst.bus_mbx_array[k] = agnt_drv_mbx[k];  
