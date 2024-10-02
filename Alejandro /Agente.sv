@@ -14,14 +14,14 @@ class Agente #(parameter drvrs = 4, parameter pckg_sz = 16);
 
     this.bus_transaction = new();
 
-        //for (int i = 0; i < drvrs; i++) begin
-       //     this.bus_mbx_array[i] = new(); // Cambio de chatgpt
-        //end
-
         for (int i = 0; i < drvrs; i++) begin
-            temp int index = i;                                        //Variable temporal
-            this.bus_mbx_array[index] = new();                   //Inicialización de mailboxes
+            this.bus_mbx_array[i] = new(); // Cambio de chatgpt
         end
+
+        //for (int i = 0; i < drvrs; i++) begin
+            //temp int index = i;                                        //Variable temporal
+            //this.bus_mbx_array[index] = new();                   //Inicialización de mailboxes
+        //end
             $display("Agente inicializado");
     endfunction
     

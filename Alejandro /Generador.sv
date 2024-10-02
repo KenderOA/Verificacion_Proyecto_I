@@ -1,6 +1,6 @@
 class Generador #(parameter drvrs = 4, parameter pckg_sz = 16);
 
-    tst_gen_mx          tst_gen_mx;
+    tst_gen_mbx          tst_gen_mbx;
     tst_gen             tst_gen_transaction;
 
     gen_agnt_mbx        gen_agnt_mbx;
