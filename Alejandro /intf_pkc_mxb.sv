@@ -56,8 +56,8 @@ endclass
 
 class gen_agnt; //gen_ag
   int cant_datos; //cant_datos
-  modo_agnt_data tipo_data; //data_modo       
-  modo_agnt_id tipo_id; //id_modo
+  rand modo_agnt_data tipo_data; //data_modo       
+  rand modo_agnt_id tipo_id; //id_modo
   int id_rand; //id_rand
   int id; //id
   int dis_src_rand; //source_rand
@@ -76,7 +76,7 @@ class gen_agnt; //gen_ag
 endclass
 
 class tst_gen;
-  Generador_modo tipo_gen; //caso
+  rand Generador_modo tipo_gen; //caso
   int id; 
   int dis_src; //source
   function new (Generador_modo tpo_gen=normal, int id=0, dis_src=0);
