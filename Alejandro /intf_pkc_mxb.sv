@@ -15,8 +15,6 @@ class bus_transaction #(parameter pckg_sz = 16, parameter drvrs=4);
     rand logic [7:0] id; //identificador del dispositivo destino
     rand logic [pckg_sz-9:0] dato ; //Payload del paquete
     rand int dis_src; //dispositivo de envio
-    //int tiempo; // Representa el tiempo de simulación en el que se ejecutó la transacción
-    //inst_drv_mnt tipo; // enviar dato, recibir dato, eliminar dato
     int max_retardo;
     int tiempo;
 
