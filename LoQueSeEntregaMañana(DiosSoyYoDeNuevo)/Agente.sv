@@ -22,10 +22,10 @@ class Agente #(parameter drvrs = 4, parameter pckg_sz = 16);
             //temp int index = i;                                        //Variable temporal
             //this.bus_mbx_array[index] = new();                   //Inicialización de mailboxes
         //end
-            $display("Agente inicializado");
     endfunction
     
     task run();
+      	$display("Agente inicializado");
         forever begin
             this.gen_agnt_mbx.get(this.gen_agnt_transaction);               
             this.num_transacciones = this.gen_agnt_transaction.cant_datos;
@@ -95,6 +95,9 @@ class Agente #(parameter drvrs = 4, parameter pckg_sz = 16);
 
                 this.bus_transaction.tiempo= $time;
                 this.bus_mbx_array[this.bus_transaction.dis_src].put(this.bus_transaction);
+              $display("Tamaño de bus_mbx_array: %d", $size(this.bus_mbx_array));
+                         $display("Dispositivo fuente: %d",this.bus_transaction.dis_src);
+              $display("Transaccion: %d",this.bus_transaction);
 
             end
         end
