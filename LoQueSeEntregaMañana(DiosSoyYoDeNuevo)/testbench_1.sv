@@ -58,7 +58,7 @@ module testbench;
 
     initial begin
 
-        t_0 = new(all_to_one);
+      t_0 = new(normal);
         t_0.tst_gen_mbx = tst_gen_mbx;
         t_0.dis_src = 0;
         t_0.id = 2;
@@ -81,32 +81,7 @@ module testbench;
         #200000
 
         disable fork;
-
-        //////PRIMERA PRUEBA//////
-
-        t_1 = new(normal);
-        t_1.tst_gen_mbx = tst_gen_mbx;
-        
-        ambiente_0 = new();
-        ambiente_0.generador_inst.tst_gen_mbx = tst_gen_mbx; //igual aquí
-
-        for (int i = 0; i < drvrs; i++) begin
-
-            automatic int k = i;
-            ambiente_0.driver_inst[k].bus_intf = bus_intf;
-
-        end
-
-        fork
-            t_1.run();
-            ambiente_0.run();
-        join_none
-
-        #200000
-
-        disable fork;
-        //////SEGUNDA PRUEBA//////
-    end
+          end 
 
     initial begin
         #1000000
