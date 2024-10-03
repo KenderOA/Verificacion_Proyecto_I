@@ -15,7 +15,7 @@ class Checker_Scoreboard #(parameter drvrs = 4, parameter pckg_sz = 16);
     // Constructor
     function new();
         this.mnt_chkr_sb_mbx = new();
-      this.drvr_chkr_sb_mbx = new();
+        this.drvr_chkr_sb_mbx = new();
 
         this.resultados = {};
         this.instrucciones = {};
@@ -52,4 +52,14 @@ class Checker_Scoreboard #(parameter drvrs = 4, parameter pckg_sz = 16);
                       this.instrucciones[i].tiempo, this.instrucciones[i].dis_src);
         end
         $fdisplay(fa,"TRANSACCIONES RECIBIDAS: %d",this.resultados.size());
-        foreach (this.resultados[i
+        foreach (this.resultados[i]) begin
+            $fdisplay(fa, "Posición %d de la cola, dato = %d , id = %d, instante [%g], llegó al dispositivo: %g",
+                      i, this.resultados[i].dato, this.resultados[i].id, 
+                      this.resultados[i].tiempo, this.resultados[i].id);
+        end
+        if(this.instrucciones.size() - this.resultados.size() > 0) 
+            $fdisplay(fa,"TRANSACCIONES PERDIDAS: %d",this.instrucciones.size() - this.resultados.size());
+        $fclose(fa);
+    endfunction
+
+endclass
