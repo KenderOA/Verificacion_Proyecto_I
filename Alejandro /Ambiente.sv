@@ -44,6 +44,7 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
     
     for (int i = 0; i < drvrs; i++) begin
       automatic int k = i;
+      $display("[%g] Instanciando driver %0d", $time, k);
       this.driver_inst[k] = new(k, bus_intf); // Instanciación del driver
       this.monitor_inst[k]=new(k, bus_intf);
       this.agente_inst.bus_mbx_array[k] = agnt_drvr_mbx[k];
@@ -60,15 +61,16 @@ class Ambiente #(parameter drvrs = 4, parameter pckg_sz = 16);
       generador_inst.run();
       agente_inst.run();
       for (int i = 0; i < drvrs; i++) begin
+        fork
         automatic int k = i;
-        
+        $display("[%g] Iniciando driver %0d", $time, k);
         this.driver_inst[k].run_driver();
         this.monitor_inst[k].run_monitor();
-        
+        join_none
       end
       //checker_inst.run_mnt();
       //checker_inst.run_drvr();
       //void'(checker_inst.report_sb());
-    join_none;
+    join;
   endtask
 endclass
