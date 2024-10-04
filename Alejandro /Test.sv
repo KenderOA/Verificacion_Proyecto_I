@@ -22,6 +22,8 @@ class Test #(parameter drvrs = 4, parameter pckg_sz = 16);
         tst_gen_transaction.dis_src=this.dis_src;
         tst_gen_transaction.tipo_gen=this.test;
         tst_gen_mbx.put(tst_gen_transaction);
+      $display("Transacción: %d",tst_gen_transaction);
+   
         
     endtask
 
