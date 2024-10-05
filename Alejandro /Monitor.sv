@@ -21,14 +21,12 @@ class Monitor #(parameter drvrs = 4, parameter pckg_sz = 16);
     // Task para ejecutar el comportamiento del Monitor
     task run_monitor();
         $display("[%g] Monitor inicializado", $time);
-        @(posedge bus_intf.clk); // Esperar al primer flanco de reloj
         
         forever begin
-                      
-            
+                     
             // Esperar señal de push
             @(posedge this.bus_intf.push[0][this.mnt_num]);
-            
+          $display("[%g] Monitor sigue", $time);
             // Agregar el dato a la FIFO
             this.fifo_out.push_back(this.bus_intf.D_push[0][this.mnt_num]);
             bus_intf.push[0][mnt_num] = 1;
