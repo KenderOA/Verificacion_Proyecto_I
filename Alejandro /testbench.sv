@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-`include "intf_pkc_mbx.sv"
+`include "intf_pkc_mxb.sv"
 //`include "dv_mn.sv"
 `include "Driver.sv"
 `include "Monitor.sv"
