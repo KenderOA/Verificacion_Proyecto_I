@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-`include "interfaz.sv"
+`include "intf_pkc_mbx.sv"
 //`include "dv_mn.sv"
 `include "Driver.sv"
 `include "Monitor.sv"
@@ -71,7 +71,8 @@ module testbench;
 
             automatic int k = i;
           ambiente_0.driver_inst[k].bus_intf = bus_intf;
-
+            ambiente_0.monitor_inst[k].bus_intf = bus_intf;
+            
         end
 
         fork
