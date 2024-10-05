@@ -8,6 +8,7 @@
 `include "Generador.sv"
 `include "Checker_Scoreboard.sv"
 `include "Ambiente.sv"
+`include "Library.sv"
 `include "Test.sv"
 
 module testbench;
