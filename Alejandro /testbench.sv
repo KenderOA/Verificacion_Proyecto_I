@@ -11,6 +11,10 @@
 `include "Library.sv"
 `include "Test.sv"
 
+`timescale 1ns/1ps
+
+//Recordar cambiar los nommbres de los include
+
 module testbench;
 
     tst_gen_mbx tst_gen_mbx = new();
@@ -40,7 +44,7 @@ module testbench;
     );
 
     Ambiente #(.drvrs(drvrs), .pckg_sz(pckg_sz)) ambiente_0;
-    Test #(.drvrs(drvrs), .pckg_sz(pckg_sz)) t_0, t_1;
+    Test #(.drvrs(drvrs), .pckg_sz(pckg_sz)) t_0;
 
     initial begin
         clk_tb = 0;
@@ -65,15 +69,14 @@ module testbench;
         t_0.dis_src = 0;
         t_0.id = 2;
         ambiente_0 = new();
-        //ambiente_0.display(); como no tenemos ningun task display en ambiente, no se puede llamar
-        ambiente_0.generador_inst.tst_gen_mbx = tst_gen_mbx;  //no sé si es .generador
-
-        for (int i = 0; i < drvrs; i++) begin
+        ambiente_0.generador_inst.tst_gen_mbx = tst_gen_mbx;  
+        
+      for (int i = 0; i < drvrs; i++) begin
 
             automatic int k = i;
           ambiente_0.driver_inst[k].bus_intf = bus_intf;
-            ambiente_0.monitor_inst[k].bus_intf = bus_intf;
-            
+          ambiente_0.monitor_inst[k].bus_intf = bus_intf;
+
         end
 
         fork
