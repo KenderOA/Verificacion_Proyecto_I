@@ -14,34 +14,26 @@ class Checker_Scoreboard #(parameter drvrs = 4, parameter pckg_sz = 16);
 
     // Constructor
     function new();
-        for (int i = 0; i < drvrs; i++) begin
-            this.mnt_chkr_sb_mbx[i] = new(); // Instanciar cada mailbox
-            this.drvr_chkr_sb_mbx[i] = new(); // Instanciar cada mailbox
-        end
-
         this.resultados = {};
         this.instrucciones = {};
+        this.drvr_chkr_sb_mbx = new();
     endfunction
 
     // Tarea para ejecutar el checker de drivers
     task run_drvr();
         forever begin
-            for (int i = 0; i < drvrs; i++) begin
-                if (this.drvr_chkr_sb_mbx[i].try_get(this.drvr_chkr_sb_transaction)) begin
-                    this.instrucciones.push_back(this.drvr_chkr_sb_transaction);
-                end
-            end
+            this.drvr_chkr_sb_mbx.get(this.drvr_chkr_sb_transaction);
+            this.instrucciones.push_back(this.drvr_chkr_sb_transaction);
         end
     endtask
 
     // Tarea para ejecutar el checker de monitores
     task run_mnt();
-        forever begin
-            for (int i = 0; i < drvrs; i++) begin
-                if (this.mnt_chkr_sb_mbx[i].try_get(this.mnt_chkr_sb_transaction)) begin
-                    this.resultados.push_back(this.mnt_chkr_sb_transaction);
-                end
-            end
+      forever begin
+                
+        this.mnt_chkr_sb_mbx.try_get(this.mnt_chkr_sb_transaction);   
+       	this.resultados.push_back(this.mnt_chkr_sb_transaction);
+            
         end
     endtask
 
